@@ -75,7 +75,7 @@ public class SimplestSISuite extends NimbusTestBase {
     protected void setUpVmms() throws RemoteException {
         logger.info("Before test method: overriden setUpVmms(), one unique instance");
         Gson gson = new Gson();
-        List<VmmNode> nodes = new ArrayList<VmmNode>(4);
+        List<VmmNode> nodes = new ArrayList<VmmNode>(1);
         nodes.add(new VmmNode("fakehost1", true, "default", 512, "*", true));
         final String nodesJson = gson.toJson(nodes);
         RemoteNodeManagement rnm = this.locator.getNodeManagement();

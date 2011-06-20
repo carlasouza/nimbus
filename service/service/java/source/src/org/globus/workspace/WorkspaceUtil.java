@@ -46,6 +46,10 @@ public class WorkspaceUtil {
 
 
     public static boolean isInvalidState(int newstate) {
+        if (newstate == WorkspaceConstants.STATE_DESTROY_SUCCEEDED ||
+                newstate == WorkspaceConstants.STATE_DESTROY_FAILED) {
+            return false;
+        }
         return newstate < WorkspaceConstants.STATE_FIRST_LEGAL
             || newstate > WorkspaceConstants.STATE_LAST_LEGAL;
     }

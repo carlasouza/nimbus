@@ -422,7 +422,10 @@ public class SingleResourcePoolSISuite extends NimbusTestBase {
         assertEquals(1, cancelledBackfillReqs.length);
         assertEquals(RequestState.STATE_Canceled, cancelledBackfillReqs[0].getState().getStateStr());
         assertEquals(backfillResult.getRequestID(), cancelledBackfillReqs[0].getRequestID());        
-        
+
+        logger.debug("Waiting for termination.");
+        Thread.sleep(2100);
+
         //Check backfill request state
         RequestInfo backfillReq = rm.getBackfillRequest(backfillResult.getRequestID(), superuser);
         assertEquals(0, backfillReq.getVMIds().length);
@@ -1053,7 +1056,7 @@ public class SingleResourcePoolSISuite extends NimbusTestBase {
         // Spot price: MINIMUM_PRICE        
         
         logger.debug("Waiting 2 seconds for resources to be pre-empted.");
-        Thread.sleep(2000);               
+        Thread.sleep(2000);
         
         //Check backfill request state
         backfillRequestsByCaller = rm.getBackfillRequestsByCaller(superuser);
@@ -1302,8 +1305,8 @@ public class SingleResourcePoolSISuite extends NimbusTestBase {
         // Requested SI VMs (alive requests): 7 (1 from lowReq1 was closed)
         // Spot price: lowBid (previousPrice+1)       
 
-        logger.debug("Waiting 2 seconds for resources to be pre-empted.");
-        Thread.sleep(2000);        
+        logger.debug("Waiting 4 seconds for resources to be pre-empted.");
+        Thread.sleep(4000);
         
         //Check available SI VMs
         assertEquals(6,  getAvailableResources());        
@@ -1344,8 +1347,8 @@ public class SingleResourcePoolSISuite extends NimbusTestBase {
         // Requested SI VMs (alive requests): 6 (2 from lowReq1 were closed)
         // Spot price: lowBid (previousPrice+1)
         
-        logger.debug("Waiting 2 seconds for SI VMs to be pre-empted.");
-        Thread.sleep(2000);        
+        logger.debug("Waiting 4 seconds for SI VMs to be pre-empted.");
+        Thread.sleep(4000);
         
         //Check available SI VMs
         assertEquals(4,  getAvailableResources());            

@@ -25,10 +25,9 @@ import org.globus.workspace.testing.NimbusTestContextLoader;
 import org.nimbustools.api.repr.Caller;
 import org.nimbustools.api.repr.CreateRequest;
 import org.nimbustools.api.repr.CreateResult;
-import org.nimbustools.api.repr.vm.VM;
 import org.nimbustools.api.services.admin.RemoteNodeManagement;
+import org.nimbustools.api.services.rm.ImpossibleAmountOfMemoryException;
 import org.nimbustools.api.services.rm.Manager;
-import org.nimbustools.api.services.rm.NotEnoughMemoryException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.AfterSuite;
@@ -39,8 +38,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 @Listeners({ org.globus.workspace.testing.suites.spotinstances.TestListener.class })
@@ -99,12 +96,12 @@ public class Issue26Suite extends NimbusTestBase {
         final Caller caller = this.populator().getCaller();
         final CreateRequest request =
                 this.populator().getCreateRequest("suite:issue26:tooMuchMemory", 240, 3584, 1);
-        boolean notEnoughMemory = false;
+        boolean impossibleMemory = false;
         try {
             final CreateResult result = rm.create(request, caller);
-        } catch (NotEnoughMemoryException e) {
-            notEnoughMemory = true;
+        } catch (ImpossibleAmountOfMemoryException e) {
+            impossibleMemory = true;
         }
-        assertTrue(notEnoughMemory);
+        assertTrue(impossibleMemory);
     }
 }
