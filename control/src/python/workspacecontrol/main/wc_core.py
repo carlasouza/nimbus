@@ -275,7 +275,7 @@ def _core(vm_name, action, p, c):
 
     elif action == ACTIONS.QUERY: #carla
 
-	platform.query().__class__
+	platform.query()
 
     else:
         raise ProgrammingError("unhandled action %s" % action)
