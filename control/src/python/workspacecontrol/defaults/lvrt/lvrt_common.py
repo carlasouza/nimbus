@@ -279,7 +279,7 @@ class Platform:
             
         if state == DOM_STATE_NOSTATE:
             # this is the case right after a graceful shutdown succeeds
-            self.c.log.debug("found VM with name '%s' but it has no state -- from the perspective 'above' this means it was not found at all." % handle)
+            self.c.log.debug("Found VM with name '%s' but it has no state -- from the perspective 'above' this means it was not found at all." % handle)
             return rvm
             
         if state == DOM_STATE_RUNNING:
@@ -296,6 +296,10 @@ class Platform:
             rvm.crashed = True
         
         return rvm
+
+    def query(self):
+
+        return self._get_list_defined_domains
         
 # -----------------------------------------------------------------------------
 
@@ -319,6 +323,18 @@ class Platform:
             return self._vmm().lookupByName(handle)
         except:
             shorterr = "Could not find domain with name '%s'" % handle
+            self.c.log.debug(shorterr)
+            return None
+
+    def _get_list_defined_domains(self):
+	try:
+	    res = {}
+	    domains = self._vmm().listDefinedDomains()
+	    for domain in domains:
+		res[domain] = self._vmm().lookupByName(domain).isActive()
+	    return res
+	except libvirt.libvirtError,e:
+	    shorterr = "Generic error '%s'" % str(e)
             self.c.log.debug(shorterr)
             return None
 
