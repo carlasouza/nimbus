@@ -355,9 +355,9 @@ class Platform:
             # the actual user cmdline intake will require an action
             return
         
-        if action in [ACTIONS.CREATE, ACTIONS.REMOVE, ACTIONS.INFO, ACTIONS.REBOOT, ACTIONS.PAUSE, ACTIONS.UNPAUSE, ACTIONS.PROPAGATE, ACTIONS.UNPROPAGATE, ACTIONS.PRINTXML]:
+        if action in [ACTIONS.CREATE, ACTIONS.REMOVE, ACTIONS.INFO, ACTIONS.REBOOT, ACTIONS.PAUSE, ACTIONS.UNPAUSE, ACTIONS.PROPAGATE, ACTIONS.UNPROPAGATE, ACTIONS.PRINTXML, ACTIONS.QUERY]:
             name = self.p.get_arg_or_none(wc_args.NAME)
-            if not name:
+            if not name and action != "query": # FIXME remove hardcoded string
                 raise InvalidInput("The %s action requires a name" % action)
         else:
             raise InvalidInput("Unknown action: '%s'" % action)
