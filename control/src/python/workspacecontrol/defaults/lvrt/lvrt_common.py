@@ -298,7 +298,7 @@ class Platform:
         return rvm
 
     def query(self):
-
+        """gets the running status about all VMs"""
         return self._get_list_defined_domains()
         
 # -----------------------------------------------------------------------------
@@ -333,13 +333,11 @@ class Platform:
 	    ddomains = self._vmm().listDefinedDomains()
 	    for domain in ddomains:
 		res[domain] = self._vmm().lookupByName(domain).isActive()
-
 	    #Running domains
 	    rdomains = self._vmm().listDomainsID()
 	    for domain in rdomains:
 		name = self._vmm().lookupByID(domain).name()
 		res[name] = self._vmm().lookupByID(domain).isActive()
-
 	    return res
 
 	except libvirt.libvirtError,e:
