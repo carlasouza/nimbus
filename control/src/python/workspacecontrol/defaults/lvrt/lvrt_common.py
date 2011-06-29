@@ -299,7 +299,7 @@ class Platform:
 
     def query(self):
 
-        return self._get_list_defined_domains
+        return self._get_list_defined_domains()
         
 # -----------------------------------------------------------------------------
 
@@ -329,10 +329,19 @@ class Platform:
     def _get_list_defined_domains(self):
 	try:
 	    res = {}
-	    domains = self._vmm().listDefinedDomains()
-	    for domain in domains:
+	    #Defined domains
+	    ddomains = self._vmm().listDefinedDomains()
+	    for domain in ddomains:
 		res[domain] = self._vmm().lookupByName(domain).isActive()
+
+	    #Running domains
+	    rdomains = self._vmm().listDomainsID()
+	    for domain in rdomains:
+		name = self._vmm().lookupByID(domain).name()
+		res[name] = self._vmm().lookupByID(domain).isActive()
+
 	    return res
+
 	except libvirt.libvirtError,e:
 	    shorterr = "Generic error '%s'" % str(e)
             self.c.log.debug(shorterr)
